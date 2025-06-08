@@ -6,7 +6,7 @@ function Todays({data,img,si}) {
     <div className='flex justify-between items-center flex-wrap gap-5 lg:gap-0 '>
 
         {
-            data.map((item,index)=><Today  time={"3AM"} img={img} si={si}/>
+           data.map((item,index)=><Today  time={"3AM"} img={img} si={si}/>
 )
         }
         

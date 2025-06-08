@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Todays from "./Todays";
+import axios from "axios";
 
-function RightBottom() {
+function RightBottom({lon,lat}) {
   const weather = [1, 2, 3, 4, 5, 6, 7, 8];
   const windSpeed = [1, 2, 3, 4, 5, 6, 7, 8];
+
+ 
+
+
   return (
     <div>
       <h1 className="my-5">Today at</h1>
