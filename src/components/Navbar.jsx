@@ -8,7 +8,7 @@ function Navbar() {
     <div className="flex mb-10">
 
       <div className="flex items-center gap-2">
-        <img className="w-12" src="/public/images/weather-app.png" alt="" />
+        <img className="w-12 invert" src="/public/images/weather-app.png" alt="" />
         <h1 className="lg:text-2xl  text-xl">WeatherMate</h1>
       </div>
 

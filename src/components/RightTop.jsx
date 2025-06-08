@@ -5,7 +5,7 @@ import AtmosphericConditions from './AtmosphericConditions'
 
 function RightTop() {
   return (
-    <div className='p-5 bg-zinc-800 rounded-3xl h-[70%]'>
+    <div className='p-5 bg-zinc-800 rounded-3xl  '>
         <h1>Todays Highlights</h1>
 
         <div className="top flex lg:flex-row flex-col  gap-5 mt-5 ">
@@ -37,7 +37,7 @@ function RightTop() {
         </div>
 
 
-        <div className="bottom flex justify-between items-center flex-wrap mt-5 lg:gap-5 gap-4.5">
+        <div className="bottom flex justify-between items-center flex-wrap mt-5  lg:gap-5 gap-4.5">
             <AtmosphericConditions title={"Humidity"} img={"public/images/humidity.png"} value={"82"} si={"%"}/>
             <AtmosphericConditions title={"Pressure"} img={"public/images/50d.png"} value={"1025"} si={"hPa"}/>
             <AtmosphericConditions title={"Visibility"} img={"public/images/visibility.png"} value={"10"} si={"km"}/>
