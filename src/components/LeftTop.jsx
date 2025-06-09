@@ -31,15 +31,15 @@ function LeftTop({ temp, sky,name }) {
   ];
 
   return (
-    <div className="bg-zinc-800 lg:w-fit p-5 rounded-3xl">
+    <div className="bg-zinc-800 lg:w-fit max-sm: p-5 rounded-3xl">
       <h1>Now</h1>
-      <div className=" flex items-center lg:gap-20 justify-between mr-10 ">
+      <div className=" flex items-center lg:gap-20   justify-between mr-10 ">
         <div className="flex items-start gap-0.5">
-          <h1 className="lg:text-6xl text-8xl mt-2}">{temp}</h1>
+          <h1 className="lg:text-6xl text-7xl mt-2}">{temp}</h1>
           <span className="lg:text-3xl text-5xl">o</span>
           <span className="lg:text-3xl text-5xl mt-4">C</span>
         </div>
-        <img className="lg:w-14 " src="/public/images/01n.png" alt="" />
+        <img className="lg:w-14  lg:m-0 w-20 ml-5" src="/public/images/01n.png" alt="" />
       </div>
       <h1 className="my-3 ">{sky}</h1>
       <hr className="opacity-40" />

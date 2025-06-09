@@ -11,23 +11,46 @@ function Main() {
 
   const[airData,setAirData] = useState()
 
+  const[lon,setLon] = useState()
+  const[lat,setLat] = useState()
+
   useEffect(() => {
+     const watchId = navigator.geolocation.watchPosition(
+  (position) => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log("Live Latitude:", latitude);
+    console.log("Live Longitude:", longitude);
+  },
+  (error) => {
+    console.error("Error watching position:", error.message);
+  },
+  {
+    enableHighAccuracy: true, // Use GPS if available
+    timeout: 5000,            // Max time to wait (ms)
+    maximumAge: 0             // Don't use a cached position
+  }
+);
+
     axios
       .get(
         `http://api.openweathermap.org/geo/1.0/direct?q=delhi&limit=1&appid=${api}`
       )
       .then((data) => {
         const { lat, lon } = data.data[0];
+        
 
+        
 
         axios
           .get(
             `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat.toFixed(0)}&lon=${lon.toFixed(0)}&appid=${api}`
           )
-          .then((res) => setAirData(res.data.list[0].components))
+          .then((res) => {
+            
+            return setAirData(res.data.list[0])
+          })
           .catch((error) => console.error(error));
-
-        
 
         return axios
           .get(
@@ -41,27 +64,32 @@ function Main() {
       .catch((error) => console.log(error));
   }, []);
 
-
-  // weatherData && console.log(weatherData.main);
+  // console.log(weatherData);
   
+  
+ 
 
-  return weatherData ? (
-    <div className="flex flex-col lg:flex-row lg:gap-10 gap-5 ">
+
+  return weatherData && airData ? (
+    <div className="flex flex-col lg:flex-row lg:gap-10 gap-5   ">
       <div className=" left flex flex-col gap-5 lg:w-fit">
         <LeftTop
-          temp={(weatherData.main.temp - 273.15).toFixed(1)}
+          temp={(weatherData.main.temp - 273.15).toFixed(0)}
           sky={weatherData.weather[0].description}
           name={weatherData.name}
         />
         <LeftBottom />
       </div>
       <div className="right lg:w-[77.5%]  ">
-        <RightTop airData={airData} sunrise={weatherData.sys.sunrise}  sunset={weatherData.sys.sunset} visibility={weatherData.visibility} main={weatherData.main}/>
-        <RightBottom    />
+        <RightTop airData={airData.components} sunrise={weatherData.sys.sunrise}  sunset={weatherData.sys.sunset} visibility={weatherData.visibility} main={weatherData.main} aqi ={airData.main.aqi}/>
+        <RightBottom lat ={lat} lon = {lon}  />
       </div>
     </div>
   
   ) : "Loading....";
+
+
+
 }
 
 export default Main;
