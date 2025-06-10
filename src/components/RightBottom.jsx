@@ -14,7 +14,7 @@
       )
       .then((response) => {
         const shortList = response.data.list.slice(0, 8); // Next 24 hours (3-hour intervals)
-        setForcast(shortList);
+        setForcast(shortList);        
 
         const newWeather = shortList.map((item) => {
           const utcHour = Number(item.dt_txt.substring(11, 13));

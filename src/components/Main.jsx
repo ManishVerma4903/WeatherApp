@@ -5,70 +5,61 @@ import RightTop from "./RightTop";
 import RightBottom from "./RightBottom";
 import axios from "axios";
 
-function Main() {
+function Main({city}) {
   const [weatherData, SetWeatherData] = useState();
   const api = import.meta.env.VITE_API_KEY;
 
-  const[airData,setAirData] = useState()
+  const [airData, setAirData] = useState();
 
-  const[lon,setLon] = useState()
-  const[lat,setLat] = useState()
+  const [lon, setLon] = useState("");
+  const [lat, setLat] = useState("");
+
+  // const [name, setName] = useState("Aurangabad");
+
+  console.log("city",city);
+  
+
+
 
   useEffect(() => {
-     const watchId = navigator.geolocation.watchPosition(
-  (position) => {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    console.log("Live Latitude:", latitude);
-    console.log("Live Longitude:", longitude);
-  },
-  (error) => {
-    console.error("Error watching position:", error.message);
-  },
-  {
-    enableHighAccuracy: true, // Use GPS if available
-    timeout: 5000,            // Max time to wait (ms)
-    maximumAge: 0             // Don't use a cached position
-  }
-);
-
     axios
       .get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=delhi&limit=1&appid=${api}`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${api}`
       )
       .then((data) => {
-        const { lat, lon } = data.data[0];
-        
-
-        
+        let lat = data.data[0].lat.toFixed(2);
+        let lon = data.data[0].lon.toFixed(2);
+        setLon(lon);
+        setLat(lat);
+        console.log("geo : ", data);
 
         axios
           .get(
-            `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat.toFixed(0)}&lon=${lon.toFixed(0)}&appid=${api}`
+            `https://api.openweathermap.org/data/2.5/weather?lat=${
+              lat || 28.65
+            }&lon=${lon || 77.22}&appid=${api}`
           )
-          .then((res) => {
-            
-            return setAirData(res.data.list[0])
+          .then((data) => {
+            SetWeatherData(data.data);
+            console.log("weather: ", data);
           })
-          .catch((error) => console.error(error));
+          .catch((error) => console.log(error));
 
         return axios
           .get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toFixed(
-              2
-            )}&lon=${lon.toFixed(2)}&appid=${api}`
+            `http://api.openweathermap.org/data/2.5/air_pollution?lat=${
+              Math.floor(lat) || 28
+            }&lon=${Math.floor(lon) || 77}&appid=${api}`
           )
-          .then((data) => SetWeatherData(data.data))
-          .catch((error) => console.log(error));
+          .then((res) => {
+            console.log("pollution ", res);
+
+            return setAirData(res.data.list[0]);
+          })
+          .catch((error) => console.error(error));
       })
       .catch((error) => console.log(error));
-  }, []);
-
-  // console.log(weatherData);
-  
-  
- 
-
+  }, [city]);
 
   return weatherData && airData ? (
     <div className="flex flex-col lg:flex-row lg:gap-10 gap-5   ">
@@ -77,19 +68,25 @@ function Main() {
           temp={(weatherData.main.temp - 273.15).toFixed(0)}
           sky={weatherData.weather[0].description}
           name={weatherData.name}
+          country={weatherData.sys.country}
         />
         <LeftBottom />
       </div>
       <div className="right lg:w-[77.5%]  ">
-        <RightTop airData={airData.components} sunrise={weatherData.sys.sunrise}  sunset={weatherData.sys.sunset} visibility={weatherData.visibility} main={weatherData.main} aqi ={airData.main.aqi}/>
-        <RightBottom lat ={lat} lon = {lon}  />
+        <RightTop
+          airData={airData.components}
+          sunrise={weatherData.sys.sunrise}
+          sunset={weatherData.sys.sunset}
+          visibility={weatherData.visibility}
+          main={weatherData.main}
+          aqi={airData.main.aqi}
+        />
+        <RightBottom lat={lat} lon={lon} />
       </div>
     </div>
-  
-  ) : "Loading....";
-
-
-
+  ) : (
+    "Loading...."
+  );
 }
 
 export default Main;

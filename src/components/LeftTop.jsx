@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaCalendar } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
-function LeftTop({ temp, sky,name }) {
+function LeftTop({ temp, sky,name,country }) {
   const date = new Date();
 
   const days = [
@@ -39,7 +39,7 @@ function LeftTop({ temp, sky,name }) {
           <span className="lg:text-3xl text-5xl">o</span>
           <span className="lg:text-3xl text-5xl mt-4">C</span>
         </div>
-        <img className="lg:w-14  lg:m-0 w-20 ml-5" src="/public/images/01n.png" alt="" />
+        <img className="lg:w-14  lg:m-0 w-20 ml-5" src="/public/images/01d.png" alt="" />
       </div>
       <h1 className="my-3 ">{sky}</h1>
       <hr className="opacity-40" />
@@ -54,7 +54,9 @@ function LeftTop({ temp, sky,name }) {
         <div className="flex gap-2 items-center mt-2">
           <FaLocationDot />
 
-          <h1 className="opacity-40">{name}</h1>
+          <h1 className="opacity-40">{name},</h1>
+          <h1 className="opacity-40">{country}</h1>
+
         </div>
       </div>
     </div>

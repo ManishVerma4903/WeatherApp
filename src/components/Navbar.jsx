@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 
 
-function Navbar() {
+function Navbar({handleSearchCity}) {
+  const [city,setCity] = useState("");
+
+  const handleSearch = (e)=>{
+    setCity(e.target.value)
+  }  
+
   return (
     <div className="flex mb-10">
 
@@ -16,13 +22,13 @@ function Navbar() {
         <div className="flex items-center bg-zinc-800 lg:w-1/2 px-4 gap-3 rounded-full">
         <FiSearch />
 
-        <input type="text" placeholder="Search location" className="hidden  lg:block outline-none w-full " />
+        <input onChange={handleSearch} type="text" placeholder="Search location" className="hidden  lg:block outline-none w-full " />
       </div>
 
-      <div className="flex items-center cursor-pointer bg-purple-600 lg:px-3 px-4 lg:gap-3 rounded-full">
+      <div onClick={()=>handleSearchCity(city)} className="flex items-center cursor-pointer bg-purple-600 lg:px-3 px-4 lg:gap-3 rounded-full">
         <FaLocationCrosshairs />
 
-        <h1 className="hidden lg:block ">Current Location</h1>
+        <h1  className="hidden lg:block ">Search Location</h1>
       </div>
       </div>
     </div>
