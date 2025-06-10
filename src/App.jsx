@@ -5,6 +5,8 @@ import Main from './components/Main'
 function App() {
   const [city,setCity] = useState("Delhi")
   const handleSearchCity = (city)=>{
+    console.log(city);
+    
     setCity(city);
   }
     
